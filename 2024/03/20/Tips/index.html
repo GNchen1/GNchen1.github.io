@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Tips | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="仅供个人学习参考">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tips">
+<meta property="og:url" content="http://example.com/2024/03/20/Tips/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="仅供个人学习参考">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-03-20T02:50:40.000Z">
+<meta property="article:modified_time" content="2024-04-15T12:13:27.461Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Tips">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Tips" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/03/20/Tips/" class="article-date">
+  <time class="dt-published" datetime="2024-03-20T02:50:40.000Z" itemprop="datePublished">2024-03-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Tips
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><em>仅供个人学习参考</em>  </p>
+<span id="more"></span>
+
+<h2 id="pwntools"><a href="#pwntools" class="headerlink" title="pwntools"></a>pwntools</h2><h3 id="十六进制转十进制"><a href="#十六进制转十进制" class="headerlink" title="十六进制转十进制"></a>十六进制转十进制</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python3</span><br><span class="line"><span class="number">0xa</span> //直接输入十六进制数，然后回车</span><br></pre></td></tr></table></figure>
+
+<h3 id="十六进制转字符"><a href="#十六进制转字符" class="headerlink" title="十六进制转字符"></a>十六进制转字符</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python3</span><br><span class="line"><span class="built_in">chr</span>(<span class="number">0x41</span>) //输出为<span class="string">&#x27;A&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="打印某函数的got表地址"><a href="#打印某函数的got表地址" class="headerlink" title="打印某函数的got表地址"></a>打印某函数的got表地址</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">elf = ELF(<span class="string">&quot;./filename&quot;</span>)</span><br><span class="line">elf.got[<span class="string">&#x27;function&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="打包成字符串并发送"><a href="#打包成字符串并发送" class="headerlink" title="打包成字符串并发送"></a>打包成字符串并发送</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">send(<span class="built_in">str</span>(data))</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>p32&#x2F;p64: 打包一个整数，分别打包为32位或64位<br>u32&#x2F;u64:解包一个字符串，得到整数</p>
+<h3 id="发送和接受数据"><a href="#发送和接受数据" class="headerlink" title="发送和接受数据"></a>发送和接受数据</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">conn.send(data) <span class="comment">#发送数据</span></span><br><span class="line">conn.sendline(data) <span class="comment">#发送一行数据，相当于在数据后面加\n</span></span><br><span class="line"><span class="comment">#接收数据，numb制定接收的字节，timeout指定超时</span></span><br><span class="line">conn.recv(numb = <span class="number">2048</span>, timeout = default)</span><br><span class="line"><span class="comment">#接受一行数据，keepends为是否保留行尾的\n</span></span><br><span class="line">conn.recvline(keepends=<span class="literal">True</span>)</span><br><span class="line"><span class="comment">#接受数据直到我们设置的标志出现</span></span><br><span class="line">conn.recvuntil(<span class="string">&quot;Hello,World\n&quot;</span>,drop=fasle) <span class="comment">##drop=true 时接受的数据会去除引号内的内容，返回的数据为字符串类型</span></span><br><span class="line"><span class="comment">##若要做计算，需转为如int 类型</span></span><br><span class="line"><span class="built_in">int</span>(conn.recv(),<span class="number">16</span>) <span class="comment">## 16意为16进制</span></span><br><span class="line">conn.recvall()  <span class="comment">#一直接收直到 EOF</span></span><br><span class="line">conn.recvrepeat(timeout = default)  <span class="comment">#持续接受直到EOF或timeout</span></span><br><span class="line"><span class="comment">#直接进行交互，相当于回到shell的模式，在取得shell之后使用</span></span><br><span class="line">conn.interactive()</span><br></pre></td></tr></table></figure>
+
+<h3 id="hex"><a href="#hex" class="headerlink" title="hex"></a>hex</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>e = ELF(<span class="string">&#x27;/bin/cat&#x27;</span>)</span><br><span class="line"><span class="comment">## 在Python 3中，print是一个函数，而不再是一个语句，所以正确的语法是使用括号将要打印的内容括起来</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span> (<span class="built_in">hex</span>(e.address))  <span class="comment"># 文件装载的基地址</span></span><br><span class="line"><span class="number">0x400000</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span> (<span class="built_in">hex</span>(e.symbols[<span class="string">&#x27;write&#x27;</span>])) <span class="comment"># 函数地址</span></span><br><span class="line"><span class="number">0x401680</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span> (<span class="built_in">hex</span>(e.got[<span class="string">&#x27;write&#x27;</span>])) <span class="comment"># GOT表的地址</span></span><br><span class="line"><span class="number">0x60b070</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span> (<span class="built_in">hex</span>(e.plt[<span class="string">&#x27;write&#x27;</span>])) <span class="comment"># PLT的地址</span></span><br><span class="line"><span class="number">0x401680</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="IDA"><a href="#IDA" class="headerlink" title="IDA"></a>IDA</h2><p>*选中伪代码，右键可将其复制到汇编代码中</p>
+<h2 id="syscall和函数传参"><a href="#syscall和函数传参" class="headerlink" title="syscall和函数传参"></a>syscall和函数传参</h2><p>*x86<br>    返回值：eax<br>    syscall：int 0x80<br>    syscall调用号：eax<br>    syscall参数：ebx ecx edx esi edi ebp<br>    函数参数：stack<br>*x86_64<br>    返回值：rax<br>    syscall：syscall<br>    syscall调用号：rax<br>    syscall参数：rdi rsi rdx r10 r8 r9<br>    函数参数：rdi rsi rdx rcx r8 r9 stack<br>*arm32(aarch32)<br>    返回值 : r7<br>    syscall : svc 0<br>    syscall调用号: r7<br>    syscall参数: r0 , r1 , r2 , r3 , stack<br>    函数参数: r0 , r1 , r2 , r3 , stack<br>*arm64(aarch64)<br>    返回值 : x0<br>    syscall : svc 0<br>    syscall调用号: x8<br>    syscall参数: x0 , x1 , x2 , x3 , x4 , x5<br>    函数参数: x0 , x1 , x2 , x3 , x4 , x5 , x6 , x7 , stack</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/03/20/Tips/" data-id="clydtigr30003cgbqg9s6cvxk" data-title="Tips" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tips/" rel="tag">Tips</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/03/24/%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A%E6%9C%BA%E5%88%B6+got%E8%A1%A8plt%E8%A1%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          延迟绑定机制+got表plt表
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2024/03/19/%E5%A0%86%E7%9B%B8%E5%85%B3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">堆相关</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ROP/" rel="tag">ROP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tips/" rel="tag">Tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VScode/" rel="tag">VScode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/" rel="tag">pwn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" rel="tag">动态链接</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A0%86/" rel="tag">堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B/" rel="tag">操作系统 进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" rel="tag">格式化字符串漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" rel="tag">虚拟内存</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ROP/" style="font-size: 20px;">ROP</a> <a href="/tags/Tips/" style="font-size: 10px;">Tips</a> <a href="/tags/VScode/" style="font-size: 10px;">VScode</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/pwn/" style="font-size: 10px;">pwn</a> <a href="/tags/ubuntu/" style="font-size: 20px;">ubuntu</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 20px;">动态链接</a> <a href="/tags/%E5%A0%86/" style="font-size: 10px;">堆</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B/" style="font-size: 10px;">操作系统 进程</a> <a href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">格式化字符串漏洞</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" style="font-size: 10px;">虚拟内存</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/05/20/%E6%A0%88%E8%BF%81%E7%A7%BB/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/16/VScode%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BB%A5%E5%8F%8A%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95/">VScode远程连接虚拟机以及免密登录</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/15/pwn-environment/">pwn-environment</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/02/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B/">操作系统——进程</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/01/hexo%E6%8E%A8%E9%80%81%E6%96%87%E7%AB%A0%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">hexo推送文章失败解决方案</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

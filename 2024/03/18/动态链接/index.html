@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>动态链接相关 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="仅供个人学习参考">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态链接相关">
+<meta property="og:url" content="http://example.com/2024/03/18/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="仅供个人学习参考">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/bafkreihcypprhe7hi2662na3wquk27cjoa72yhvuxydholilndilk37pai">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/bafkreif23cst3rfzw36mj7h3wptjifuvgztz4gx5ccjbvkenajvcrnjule">
+<meta property="article:published_time" content="2024-03-18T14:43:40.000Z">
+<meta property="article:modified_time" content="2024-03-28T11:26:05.217Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="动态链接">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gateway.pinata.cloud/ipfs/bafkreihcypprhe7hi2662na3wquk27cjoa72yhvuxydholilndilk37pai">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-动态链接" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/03/18/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" class="article-date">
+  <time class="dt-published" datetime="2024-03-18T14:43:40.000Z" itemprop="datePublished">2024-03-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      动态链接相关
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><em>仅供个人学习参考</em>  </p>
+<span id="more"></span>
+
+<h2 id="为什么要动态链接-动态链接基本思想"><a href="#为什么要动态链接-动态链接基本思想" class="headerlink" title="为什么要动态链接&amp;&amp;动态链接基本思想"></a>为什么要动态链接&amp;&amp;动态链接基本思想</h2><p>&emsp;&emsp;静态链接对于计算机内存和磁盘空间的浪费十分严重，且一旦程序中有任何模块更新，整个程序就需要重新链接后再发布给用户，用户每次都需要重新下载这个程序<del>试想一下每次崩铁更新都要重新下载几十个G的文件那得多崩溃</del>动态链接很好的优化了以上两个问题。<br>&emsp;&emsp;其基本思想如下：把程序的各个模块分割成独立的文件，等到程序要运行时再将他们链接在一起，也就是将链接过程推迟。假设我们有program1.o、program2.o和lib.o三个目标文件。program1.o用到了lib.o，即program1.o依赖于lib.o，那么系统就会加载lib.o，如果他们还依赖于其他目标文件，那操作系统就再加载用到的文件，之后再进行链接工作，之后我们如果还需运行program2，系统只需加载program2，因为内存中已经存在一份lib.o<br>&emsp;&emsp;在Linux系统中，elf动态链接文件被称为<strong>动态共享对象</strong>（DSO，Dynamic Shared Objects），简称<strong>共享对象</strong>，一般以.so为扩展名。在Windows系统中则以.dll为扩展名（动态链接库）</p>
+<h2 id="地址无关代码-PIC"><a href="#地址无关代码-PIC" class="headerlink" title="地址无关代码 (PIC)"></a>地址无关代码 (PIC)</h2><p>&emsp;&emsp;共享对象的最终装载地址在编译时是不确定的，那么我们如何确定它在进程虚拟空间中的位置？早期人们采用静态共享库，即手工分配各个模块的装载地址，但是单一个模块被多个程序使用，就容易导致地址冲突。比如模块a被一个人分配到0x1000到0x2000的位置，但是另外一个人用不到a，以为0x1000到0x2000是空闲的，就把b分配进去，这样就起冲突了，以后的人就不能同时使用a和b。<br>&emsp;&emsp;为了解决模块装载时固定地址的问题，我们提出一个设想：共享对象在编译时不能假设自己在进程虚拟空间中的位置。首先想到的方法就是类比静态链接中的重定位，只不过我们将重定位推迟至装载时进行，即<strong>装载时重定位</strong>，又叫<strong>基址重置</strong>。但该方法有个很大的缺点是指令部分无法在多个进程之间共享，这样便失去了动态链接的一大优势。我们的目标是希望指令共享的部分不需要因为装载地址的改变而改变，所以我们将指令部分中需要修改的部分分离出来，与数据部分合并，这样剩余部分可保持不变，而数据部分可以在每个进程中拥有一个副本，这种方法是被称为<strong>地址无关代码</strong>的技术。<br>模块中地址引用方式可分为四种</p>
+<h3 id="类型一-模块内部调用或跳转"><a href="#类型一-模块内部调用或跳转" class="headerlink" title="类型一 模块内部调用或跳转"></a>类型一 模块内部调用或跳转</h3><p>被调函数与调用者都处于同一模块，这种指令不需要重定位，相对地址调用就可以了</p>
+<h3 id="类型二-模块内部数据访问-（比如模块中定义的全局变量、静态变量）"><a href="#类型二-模块内部数据访问-（比如模块中定义的全局变量、静态变量）" class="headerlink" title="类型二 模块内部数据访问 （比如模块中定义的全局变量、静态变量）"></a>类型二 模块内部数据访问 （比如模块中定义的全局变量、静态变量）</h3><p>相对寻址，任何一条指令与它所需要访问的模块的数据之间的相对位置是固定的，只要当前指令地址（pc）加上偏移量就能得出数据地址了</p>
+<h3 id="模块三-模块间数据访问"><a href="#模块三-模块间数据访问" class="headerlink" title="模块三 模块间数据访问"></a>模块三 模块间数据访问</h3><p>这个麻烦点，因为模块间的数据访问目标地址需要等到装载时才决定。elf文件的做法是在数据段内建立一个指向这些变量的指针数组，也称为<strong>全局偏移表</strong>（GOT表），当代码需要引用这些全局变量时，可以通过GOT表中相对应的项来间接引用。<br><img src="https://gateway.pinata.cloud/ipfs/bafkreihcypprhe7hi2662na3wquk27cjoa72yhvuxydholilndilk37pai" alt="got"><br>计算方式：通过pc值加上一个偏移量得到GOT表的位置，再根据变量地址在GOT表中的偏移就可以得到变量的地址</p>
+<h3 id="模块四-模块间调用、跳转-（比如其他模块定义的全局变量）"><a href="#模块四-模块间调用、跳转-（比如其他模块定义的全局变量）" class="headerlink" title="模块四 模块间调用、跳转 （比如其他模块定义的全局变量）"></a>模块四 模块间调用、跳转 （比如其他模块定义的全局变量）</h3><p>同三，就是把变量地址换成函数地址</p>
+<h2 id="PIE"><a href="#PIE" class="headerlink" title="PIE"></a>PIE</h2><p>以地址无关方式编码的可执行文件被称为地址无关可执行文件（PIE）</p>
+<h2 id="延迟绑定"><a href="#延迟绑定" class="headerlink" title="延迟绑定"></a>延迟绑定</h2><p>&emsp;&emsp;在动态链接下，程序模块之间包含了大量的函数调用，所以程序在开始执行前，动态链接会耗费不少时间用于解决模块之间的函数引用的符号查找和重定位，这会牺牲性能。而很多函数在实际运行中很少甚至不会用到，为了提高性能，ELF采用了一种叫做<strong>延迟绑定</strong>的机制。其基本思想就是程序在第一次被用到时才绑定（符号查找、重定位等）<br>&emsp;&emsp;ELF采用PLT（Procedure Linkage Table）的方法来实现。<br><img src="https://gateway.pinata.cloud/ipfs/bafkreif23cst3rfzw36mj7h3wptjifuvgztz4gx5ccjbvkenajvcrnjule" alt="plt"><br>如图，调用函数的方式在got表的基础上再加一层，先通过plt表查询函数在got表对应的项的地址，再通过got表进行间接寻址，如果是第一次调用函数，got表是没有函数地址的，需要plt表去绑定该函数（其中需要用到plt表中的前三个参数），之后got表就有对应函数的地址了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/03/18/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" data-id="clydtigr50008cgbq3aj3cxsh" data-title="动态链接相关" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" rel="tag">动态链接</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/03/19/%E5%9F%BA%E6%9C%ACROP/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          基本ROP
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2024/03/13/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">浅谈内存管理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ROP/" rel="tag">ROP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tips/" rel="tag">Tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VScode/" rel="tag">VScode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/" rel="tag">pwn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" rel="tag">动态链接</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A0%86/" rel="tag">堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B/" rel="tag">操作系统 进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" rel="tag">格式化字符串漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" rel="tag">虚拟内存</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ROP/" style="font-size: 20px;">ROP</a> <a href="/tags/Tips/" style="font-size: 10px;">Tips</a> <a href="/tags/VScode/" style="font-size: 10px;">VScode</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/pwn/" style="font-size: 10px;">pwn</a> <a href="/tags/ubuntu/" style="font-size: 20px;">ubuntu</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 20px;">动态链接</a> <a href="/tags/%E5%A0%86/" style="font-size: 10px;">堆</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B/" style="font-size: 10px;">操作系统 进程</a> <a href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">格式化字符串漏洞</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" style="font-size: 10px;">虚拟内存</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/05/20/%E6%A0%88%E8%BF%81%E7%A7%BB/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/16/VScode%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BB%A5%E5%8F%8A%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95/">VScode远程连接虚拟机以及免密登录</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/15/pwn-environment/">pwn-environment</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/02/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B/">操作系统——进程</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/01/hexo%E6%8E%A8%E9%80%81%E6%96%87%E7%AB%A0%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">hexo推送文章失败解决方案</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

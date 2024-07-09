@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>操作系统——进程 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="仅供个人学习参考">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统——进程">
+<meta property="og:url" content="http://example.com/2024/04/02/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="仅供个人学习参考">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-04-02T13:50:00.000Z">
+<meta property="article:modified_time" content="2024-04-02T14:00:15.612Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="操作系统 进程">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-操作系统——进程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/04/02/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B/" class="article-date">
+  <time class="dt-published" datetime="2024-04-02T13:50:00.000Z" itemprop="datePublished">2024-04-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      操作系统——进程
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><em>仅供个人学习参考</em>  </p>
+<span id="more"></span>
+
+<h2 id="最大限度利用CPU"><a href="#最大限度利用CPU" class="headerlink" title="最大限度利用CPU"></a>最大限度利用CPU</h2><p>&emsp;&emsp;在计算机发展早期，CPU资源十分宝贵，如果一个CPU只能运行一个程序，那么当这个程序读写磁盘是，CPU就闲下来了，这在当时无异于暴殄天物，于是人们编写了一个监控程序，当某个程序暂时不使用CPU时，监控程序就把另一个在等待CPU资源的程序启动，使CPU得以充分利用，这种方法被称为<strong>多道程序（Multiprogramming）</strong>，原始但是有效，但其有个问题就是程序的执行不分轻重缓急，调度策略太过于粗糙，当多个程序同时运行时，容易出现问题，有一些急需处理的程序可能要等到很久以后才能分配到CPU，<del>比如当你当你点击鼠标，但是要等个十分钟才有响应，这是很难受的</del><br>&emsp;&emsp;稍作改进，让程序运行模式变成一种协作模式，即程序使用一段时间的CPU后会主动让出，这种程序协作模式叫做<strong>分时系统（Time-Sharing System）</strong>,<br>此时完整的操作系统雏形已经逐渐形成，不过这种方式也存在问题，如果此时某项程序正在进行一项耗时的计算，霸占着CPU不放，那么其他程序只能等待，整个系统看上去就好像“死机”了一样。<br>&emsp;&emsp;于是我们再进行改进，直到现在我们熟悉的<strong>多任务（Multi-tasking）系统</strong>。操作系统接管了所有的硬件资源，并且本身运行在一个受硬件保护的级别。所有的应用程序都以<strong>进程（Process）</strong>的方式运行在比操作系统更低的级别，每个进程都有自己独立的地址空间，使得进程之间的地址空间相互隔离，每个进程根据进程优先级的高低都有机会得到CPU。但是,如果运行时间超出了一定的时间，操作系统会强制暂停该进程，将CPU资源分配给其他等待运行的进程。这种CPU分配方式称为<strong>抢占式</strong>。操作系统可以强制剥夺CPU资源并且分配给它认为目前最需要CPU的进程。如果操作系统分配给每个进程的时间都很短，即CPU在多个进程间快速地切换，就能造成了很多进程都在同时运行的假象（即<strong>伪并行</strong>(pseudoparallelism) ）。</p>
+<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>操作系统中的进程是指正在执行的程序的实例。进程是计算机系统中的基本执行单位，它具有独立的内存空间和执行状态。</p>
+<hr>
+<p>在网上看到一个有意思的比喻：<br>&emsp;&emsp;想想一位会做饭的计算机科学家正在为他的女儿制作生日蛋糕。他有做生日蛋糕的食谱，厨房里有所需的原料：面粉、鸡蛋、糖、香草汁等。在这个比喻中，做蛋糕的食谱就是程序、计算机科学家就是 CPU、而做蛋糕的各种原料就是输入数据。进程就是科学家阅读食谱、取来各种原料以及烘焙蛋糕等一系列动作的总和。<br>&emsp;&emsp;现在假设科学家的儿子跑过来告诉他，说他的头被蜜蜂蜇了一下，那么此时科学家会记录出来他做蛋糕这个过程到了哪一步，然后拿出急救手册，按照上面的步骤给他儿子实施救助。这里，会涉及到进程之间的切换，科学家（CPU）会从做蛋糕（进程）切换到实施医疗救助（另一个进程）。等待伤口处理完毕后，科学家会回到刚刚记录做蛋糕的那一步，继续制作。</p>
+<hr>
+<h3 id="进程状态"><a href="#进程状态" class="headerlink" title="进程状态"></a>进程状态</h3><p>在操作系统中，进程可以处于不同的状态，这些状态反映了进程在执行过程中的不同情况和条件。<br>常见的进程状态包括：<br>1.<strong>新建（New）</strong>：进程刚被创建但还未被操作系统接受和分配资源。<br>2.<strong>就绪（Ready）</strong>：进程已经准备好执行并等待分配处理器资源。<br>3.<strong>运行（Running）</strong>：进程正在执行中，占用CPU资源。<br>4.<strong>阻塞（Blocked）</strong>：进程因为某些原因而无法继续执行，例如等待某个事件发生、等待输入&#x2F;输出完成或等待资源释放。<br>5.<strong>终止（Terminated）</strong>：进程的执行已经结束，可能是正常结束或异常结束。</p>
+<h3 id="进程控制"><a href="#进程控制" class="headerlink" title="进程控制"></a>进程控制</h3><p>进程控制是指操作系统对进程进行创建、终止、暂停、恢复和调度等操作的管理和控制。通过进程控制，操作系统可以有效地管理进程的执行，分配资源并确保系统的正常运行。</p>
+<p><em>进程创建</em></p>
+<p>操作系统允许用户或其他进程创建新的进程。进程创建的过程中，操作系统会为新进程分配资源，包括内存空间、文件描述符、进程控制块等。操作系统还会为新进程设置初始状态和上下文，并将其加入进程调度队列中等待执行。</p>
+<p><em>进程终止</em></p>
+<p>进程可以正常终止，也可以由于错误、异常或用户请求而被强制终止。当一个进程终止时，操作系统会回收其占用的资源，释放内存空间，并更新相应的数据结构。此外，操作系统还会通知相关进程或用户进程的终止事件。</p>
+<p><em>进程暂停和恢复</em></p>
+<p>操作系统可以暂停一个正在运行的进程，使其暂时停止执行。进程暂停的原因可以是等待某个事件的发生，如等待 I&#x2F;O 操作完成。一旦等待的事件发生，操作系统会恢复进程的执行，使其继续运行。</p>
+<p><em>进程调度</em></p>
+<p>操作系统通过<u>进程调度算法</u>决定哪些进程获得 CPU 时间片并在运行态执行。调度算法可以根据进程的优先级、时间片轮转等策略来决定进程的执行顺序。进程调度的目标是实现公平性、高性能和响应时间的平衡。</p>
+<h3 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h3><p>进程间通信（Inter-Process Communication，IPC）是指在操作系统中，不同进程之间进行数据交换、信息传递和协作的机制。进程间通信允许进程之间<u>共享数据、同步操作和相互通知</u>，以实现任务的协同完成。<br>实现方式（常见）：<br>1.<strong>管道（Pipe）</strong>：管道是一种半双工<sup>[1]</sup>的通信机制，用于在具有亲缘关系的两个进程之间进行通信。管道有两种类型：无名管道（Anonymous Pipe）和命名管道（Named Pipe）。无名管道用于父子进程之间的通信，而命名管道允许无关进程之间的通信。<br>2.<strong>共享内存（Shared Memory）</strong>：共享内存是一种高效的进程间通信方式，它允许多个进程访问<u>同一块内存区域</u>。进程可以将共享内存映射到它们的地址空间中，从而可以直接读写共享数据，而无需进行数据复制。共享内存需要使用同步机制（如信号量）来协调进程对共享数据的访问。<br>3.<strong>信号量（Semaphore）</strong>：信号量是一种用于进程间同步的机制。它可以用来实现进程的互斥访问共享资源和进程的同步操作。信号量维护一个计数器，进程可以对信号量进行等待（阻塞）和释放（唤醒）操作，以控制对共享资源的访问。（<em>具体后面进程互斥会提到，先留个印象</em>）<br>4.<strong>消息队列（Message Queue）</strong>：消息队列<sup>[2]</sup>是一种基于消息的进程间通信方式。进程可以将消息发送到队列中，并由其他进程从队列中接收消息。消息队列可以实现进程之间的异步通信，进程可以按照自己的节奏发送和接收消息，而不需要进行直接的同步等待。<br>5.<strong>套接字（Socket）</strong>：套接字是一种用于网络通信的通用接口，它也可以用于进程间通信。进程可以通过套接字进行网络通信，也可以在同一台计算机上的不同进程之间进行进程间通信。套接字提供了一种可靠的、面向连接的通信方式。</p>
+<p>[1] <em>半双工（Half-Duplex）通信机制是指通信双方可以交替地发送和接收数据，但不能同时进行发送和接收。比喻起来，可以将半双工通信类比为对话中的单向讲话。当一个人在说话时，另一个人必须静默等待，然后才能回应。在这种情况下，每个人都可以发送和接收信息，但不能同时进行。相比于半双工，全双工通信则允许通信双方同时发送和接收数据。</em><br>[2] <em>消息队列通常由消息生产者、消息队列和消息消费者组成。简单的来说，消息生产者给出消息，消息队列存放消息，消息消费者根据需求接受消息。对应上文，进程既可以当消息生产者，也可以当消息消费者</em></p>
+<h3 id="进程互斥"><a href="#进程互斥" class="headerlink" title="进程互斥"></a>进程互斥</h3><p>进程互斥是指多个进程在访问共享资源时的一种机制，旨在<u>防止多个进程同时访问或修改同一个共享资源，从而避免数据不一致或竞争条件的发生</u>。在并发执行的环境中，多个进程可能会同时访问共享资源，比如共享内存区域、文件、设备等。如果没有适当的互斥机制，就有可能导致数据损坏、竞争条件和不确定性的问题。<br>实现（常见）：<br>1.<strong>互斥锁（Mutex）</strong>：互斥锁是最常用的进程互斥机制之一。它是一种二进制标志，且只有一个进程可以持有互斥锁，每个共享资源都有一个关联的互斥锁。在访问共享资源之前，进程需要先尝试获取互斥锁。如果互斥锁已经被其他进程持有，则当前进程会被阻塞，直到互斥锁被释放。一次只有一个进程能够持有互斥锁，确保了对共享资源的互斥访问。<br>2.<strong>条件变量（Condition Variable）</strong>：条件变量用于进程之间的通信和同步，它允许一个进程等待某个条件满足后再继续执行。条件变量通常与互斥锁一起使用<sup>[3]</sup>，确保在等待条件时不会发生竞争条件。<br>3.<strong>信号量（Semaphore）</strong>：信号量是一种计数器，用于控制同时访问共享资源的进程数量。它可以用来实现互斥和同步。当进程需要访问共享资源时，在访问之前会尝试对信号量进行减操作，如果减操作的结果小于零，则当前进程会被阻塞，直到其他进程释放了信号量。（举个栗子：假设刚开始信号量的值为3，说明此时该共享资源允许有三个进程同时访问它，每多一个进程正在访问它，信号量的值就减一，直到其值为0，此时已经满了，若再来一个进程，进行减操作后发现结果小于0，那么该进程就会被阻塞，不让它访问）<br>4.<strong>读写锁（ReadWrite Lock）</strong>：读写锁允许多个进程同时读取共享资源，但只允许一个进程进行写操作。这种机制适用于读取频繁、写入较少的场景，可以提高并发性能。<br>[3] <em>条件变量的使用通常遵循以下模式：(1)进程获取互斥锁。(2)进程检查某个条件是否满足，如果不满足，则调用等待操作，释放互斥锁，并进入阻塞状态。(3)其他进程在一定条件下修改共享资源，并通过通知操作唤醒等待的线程。(4)被唤醒的进程重新获取互斥锁，继续执行。</em></p>
+<h3 id="进程同步"><a href="#进程同步" class="headerlink" title="进程同步"></a>进程同步</h3><p>进程同步是指多个进程之间协调和控制彼此的执行顺序，以确保它们按照预期的方式进行交互和共享资源。进程同步的目的是避免竞争条件、数据不一致和其他并发问题。在并发环境中，多个进程同时执行，彼此之间的执行顺序是不确定的。这可能会导致一些问题，比如竞态条件（Race condition）<sup>[4]</sup>、死锁（Deadlock）<sup>[5]</sup>和活锁（Livelock）<sup>[6]</sup>等。为了解决这些问题，需要使用适当的进程同步机制。<br>实现（常见）：<br>1.<strong>信号量（Semaphore）</strong><br>2.<strong>互斥锁（Mutex）</strong><br>3.<strong>条件变量（Condition Variable）</strong><br>4.<strong>读写锁（ReadWrite Lock）</strong><br>5.<strong>屏障（Barrier）</strong>：屏障用于确保多个进程在并发执行过程中达到某个同步点之前都会等待。当所有进程都到达屏障点后，它们才能继续执行。</p>
+<hr>
+<p><em>可以说进程互斥是进程同步的一种特殊情况。进程同步更广泛地涵盖了进程之间协调和控制的方方面面，包括确保进程按照预期的顺序执行、等待其他进程完成某个操作、通知其他进程等。而进程互斥仅关注在多个进程访问共享资源时的互斥访问问题。</em></p>
+<hr>
+<p>[4] <em>竞态条件（Race Condition）是指在多线程或多进程环境中，由于多个线程或进程之间的执行顺序不确定而导致的问题。这种不确定性可能会导致共享资源的访问和修改顺序与预期不符，从而导致程序产生不正确的结果。</em><br><em>举个栗子</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">BankAccount</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.balance = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">deposit</span>(<span class="params">self, amount</span>):</span><br><span class="line">        current_balance = <span class="variable language_">self</span>.balance</span><br><span class="line">        current_balance += amount</span><br><span class="line">        <span class="variable language_">self</span>.balance = current_balance</span><br></pre></td></tr></table></figure>
+
+<p>假设有两个线程同时执行以下代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">account = BankAccount()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 线程1的操作</span></span><br><span class="line">thread1:</span><br><span class="line">    account.deposit(<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 线程2的操作</span></span><br><span class="line">thread2:</span><br><span class="line">    account.deposit(<span class="number">200</span>)</span><br></pre></td></tr></table></figure>
+
+<p><em>在单线程情况下，期望的结果是账户余额增加到300。但是，由于线程1和线程2是并行执行的，存在竞态条件，可能导致以下情况发生：</em><br><em>线程1读取账户余额为0。</em><br><em>线程2读取账户余额为0。</em><br><em>线程1计算新余额为100。</em><br><em>线程2计算新余额为200。</em><br><em>线程1更新账户余额为100。</em><br><em>线程2更新账户余额为200。</em><br><em>在这种情况下，账户余额只增加到了200，而不是期望的300。这是因为两个线程同时读取了账户余额，进行了计算和更新操作，导致竞态条件产生。</em></p>
+<p>[5] <em>死锁（Deadlock）是指在并发系统中，两个或多个进程或线程因互相等待对方释放资源而造成的一种僵持状态，导致它们无法继续执行下去。死锁形成需满足四个条件：</em><br><em>1.互斥条件（Mutual Exclusion）：至少有一个资源被标记为独占性资源，同一时间只能被一个进程或线程占用。</em><br><em>2.占有和等待条件（Hold and Wait）：进程或线程至少已经持有一个资源，同时还在等待获取其他进程或线程占用的资源。</em><br><em>3.不可剥夺条件（No Preemption）：已经占有的资源不能被其他进程或线程强制性地剥夺，只能在自愿释放后才能让其他进程使用。</em><br><em>4.循环等待条件（Circular Wait）：存在一个进程或线程的资源请求链，形成一个循环等待的环路。</em><br><em>条件2、3和4简单理解就是：现有进程abc，分别占有资源123，且a还需2才能执行，b还需3才能执行，c还需1才能执行，他们都在等待对方让出资源，然后就会陷入死循环，无限等待</em><br><em>预防死锁只需破坏四个条件其中之一即可</em></p>
+<p>[6] <em>活锁（Livelock）是一种类似于死锁的情况，其中多个进程或线程在<u>相互响应对方的动作</u>时陷入无限循环，导致它们无法继续向前推进或完成任务。在活锁中，进程或线程一直在不停地改变自己的状态以避免冲突，但是它们无法取得进展。这种情况下，虽然进程或线程没有被阻塞，但它们却无法完成所需的工作。</em><br><em>简单来说，发生死锁时进程等的是对方的资源，发生活锁时进程等的是对方的动作或响应，也是一个互相等待的过程</em></p>
+<h2 id="临界区"><a href="#临界区" class="headerlink" title="临界区"></a>临界区</h2><p>&emsp;&emsp;临界区（Critical Section）是指在多线程或多进程环境中，访问共享资源或共享数据的那部分<u>代码区域</u>。在临界区内，只允许一个线程或进程访问共享资源，其他线程或进程必须等待。<br>&emsp;&emsp;临界区的目的是确保在并发访问共享资源时的数据一致性和正确性。当多个线程或进程需要同时访问共享资源时，如果不进行同步控制，就可能会导致数据竞争和错误的结果。通过将访问共享资源的代码包裹在临界区中，可以保证同一时间只有一个线程或进程可以执行临界区内的代码，从而避免竞争条件的发生。<br>使用临界区时，需要注意以下几点：<br>·互斥访问：临界区内的代码需要通过互斥机制（如互斥锁、信号量等）来确保在任意时刻只有一个线程或进程可以执行临界区内的代码。<br>·尽量减少临界区的长度：临界区的长度越长，其他线程或进程就需要等待更长的时间才能访问共享资源，可能导致性能下降。因此，应尽量将临界区的长度缩短，只包含必要的代码。<br>·避免死锁：如果多个线程或进程相互等待对方释放资源，可能导致死锁。因此，在设计临界区时，需要合理设置同步机制，避免死锁情况的发生。<br>·公平性：在多线程环境中，应该考虑公平性，即每个线程都有机会访问临界区，避免某个线程长时间占据临界区而导致其他线程无法访问。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/04/02/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B/" data-id="clydtigrg000ycgbq2ais2rdm" data-title="操作系统——进程" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B/" rel="tag">操作系统 进程</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/04/15/pwn-environment/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          pwn-environment
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2024/04/01/hexo%E6%8E%A8%E9%80%81%E6%96%87%E7%AB%A0%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">hexo推送文章失败解决方案</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ROP/" rel="tag">ROP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tips/" rel="tag">Tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VScode/" rel="tag">VScode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/" rel="tag">pwn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" rel="tag">动态链接</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A0%86/" rel="tag">堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B/" rel="tag">操作系统 进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" rel="tag">格式化字符串漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" rel="tag">虚拟内存</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ROP/" style="font-size: 20px;">ROP</a> <a href="/tags/Tips/" style="font-size: 10px;">Tips</a> <a href="/tags/VScode/" style="font-size: 10px;">VScode</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/pwn/" style="font-size: 10px;">pwn</a> <a href="/tags/ubuntu/" style="font-size: 20px;">ubuntu</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 20px;">动态链接</a> <a href="/tags/%E5%A0%86/" style="font-size: 10px;">堆</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B/" style="font-size: 10px;">操作系统 进程</a> <a href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;">格式化字符串漏洞</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" style="font-size: 10px;">虚拟内存</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/05/20/%E6%A0%88%E8%BF%81%E7%A7%BB/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/16/VScode%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BB%A5%E5%8F%8A%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95/">VScode远程连接虚拟机以及免密登录</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/15/pwn-environment/">pwn-environment</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/02/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B/">操作系统——进程</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/01/hexo%E6%8E%A8%E9%80%81%E6%96%87%E7%AB%A0%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">hexo推送文章失败解决方案</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
