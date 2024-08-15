@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>使用echo命令输出flag</title>
+      <link href="/2024/08/15/%E4%BD%BF%E7%94%A8echo%E5%91%BD%E4%BB%A4%E8%BE%93%E5%87%BAflag/"/>
+      <url>/2024/08/15/%E4%BD%BF%E7%94%A8echo%E5%91%BD%E4%BB%A4%E8%BE%93%E5%87%BAflag/</url>
+      
+        <content type="html"><![CDATA[<p><em>仅供个人学习参考</em>  </p><span id="more"></span><p>在获取shell后，有的时候会发现&#x2F;bin&#x2F;sh目录下只有echo命令(无法使用ls cat之类)，这个时候可以使用如下命令输出flag文件的内容</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="subst">$(&lt;fileName)</span>&quot;</span></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> echo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>整数溢出</title>
       <link href="/2024/08/13/%E6%95%B4%E6%95%B0%E6%BA%A2%E5%87%BA/"/>
       <url>/2024/08/13/%E6%95%B4%E6%95%B0%E6%BA%A2%E5%87%BA/</url>
@@ -358,9 +377,9 @@
       
         <tags>
             
-            <tag> ubuntu </tag>
-            
             <tag> VScode </tag>
+            
+            <tag> ubuntu </tag>
             
         </tags>
       
@@ -379,9 +398,9 @@
       
         <tags>
             
-            <tag> pwn </tag>
-            
             <tag> ubuntu </tag>
+            
+            <tag> pwn </tag>
             
         </tags>
       
