@@ -4,6 +4,27 @@
   
     
     <entry>
+      <title>Ubuntu 16.04 下安装VMware Tools</title>
+      <link href="/2024/08/16/Ubuntu%2016.04%20%E4%B8%8B%E5%AE%89%E8%A3%85VMware%20Tools/"/>
+      <url>/2024/08/16/Ubuntu%2016.04%20%E4%B8%8B%E5%AE%89%E8%A3%85VMware%20Tools/</url>
+      
+        <content type="html"><![CDATA[<p><em>仅供个人学习参考</em>  </p><span id="more"></span><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get upgrate</span><br><span class="line"><span class="built_in">sudo</span> apt-get install open-vm-tools-desktop -y</span><br><span class="line"><span class="built_in">sudo</span> reboot</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> ubuntu </tag>
+            
+            <tag> VMware Tools </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>使用echo命令输出flag</title>
       <link href="/2024/08/15/%E4%BD%BF%E7%94%A8echo%E5%91%BD%E4%BB%A4%E8%BE%93%E5%87%BAflag/"/>
       <url>/2024/08/15/%E4%BD%BF%E7%94%A8echo%E5%91%BD%E4%BB%A4%E8%BE%93%E5%87%BAflag/</url>
@@ -377,9 +398,9 @@
       
         <tags>
             
-            <tag> VScode </tag>
-            
             <tag> ubuntu </tag>
+            
+            <tag> VScode </tag>
             
         </tags>
       
